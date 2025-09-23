@@ -9,7 +9,7 @@ defmodule MathQuiz.Application do
   def start(_type, _args) do
     children = [
       MathQuizWeb.Telemetry,
-      MathQuiz.Repo,
+      # MathQuiz.Repo,
       {DNSCluster, query: Application.get_env(:math_quiz, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: MathQuiz.PubSub},
       # Start a worker by calling: MathQuiz.Worker.start_link(arg)
