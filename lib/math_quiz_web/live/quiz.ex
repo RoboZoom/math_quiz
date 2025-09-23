@@ -58,7 +58,6 @@ defmodule MathQuizWeb.Quiz do
     f =
       %QuizGenerateForm{}
       |> QuizGenerateForm.changeset(vals)
-      |> IO.inspect()
       |> to_form(action: :validate)
 
     {:noreply, assign(socket, form: f)}
