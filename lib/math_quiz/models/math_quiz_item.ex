@@ -25,7 +25,7 @@ defmodule MathQuiz.Models.MathQuizItem do
   embedded_schema do
     field :first_num, :integer
     field :second_num, :integer
-    field :operator, :integer
+    field :operator, Ecto.Enum, values: [:add, :multiply, :subtract, :divide]
     field :result, :integer
   end
 end
