@@ -62,7 +62,7 @@ defmodule MathQuiz.QuizCache do
 
       1..upper_bound
       |> Enum.to_list()
-      |> Enum.map(QuestionGenerator.gen_math_question(el.operator, el.max_param))
+      |> Enum.map(fn _x -> QuestionGenerator.gen_math_question(el.operator, el.max_param) end)
       |> Enum.concat(ac)
     end)
   end
