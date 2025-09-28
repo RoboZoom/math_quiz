@@ -1,4 +1,5 @@
 defmodule MathQuizWeb.Router do
+  alias MathQuizWeb.QuizView
   use MathQuizWeb, :router
 
   pipeline :browser do
@@ -19,7 +20,8 @@ defmodule MathQuizWeb.Router do
 
     get "/", PageController, :home
 
-    live "/quiz", Quiz
+    live "/quiz", QuizCreate
+    live "/quiz_view/:quiz_id", QuizView
   end
 
   # Other scopes may use custom stacks.

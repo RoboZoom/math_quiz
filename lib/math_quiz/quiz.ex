@@ -7,4 +7,8 @@ defmodule MathQuiz.Quiz do
   def generate_quiz(%Models.MathQuizParams{} = quiz_params) do
     GenServer.call(MathQuiz.QuizCache, {:generate_quiz, quiz_params})
   end
+
+  def fetch_quiz(quiz_id) do
+    GenServer.call(MathQuiz.QuizCache, {:get_quiz, quiz_id})
+  end
 end

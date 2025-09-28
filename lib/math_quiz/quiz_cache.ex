@@ -44,36 +44,11 @@ defmodule MathQuiz.QuizCache do
     quiz = %Models.MathQuiz{
       id: quiz_id,
       params: params,
-      questions: generate_quiz_items(params)
+      questions: QuestionGenerator.generate_quiz_items(params)
     }
 
     new_state = %{state | next_id: new_id, quizzes: [quiz | state.quizzes]}
 
-    {:reply, quiz_id, new_state}
-  end
-
-  def generate_quiz_items(%Models.MathQuizParams{} = params) do
-    l = length(params.operator_params)
-
-    params.operator_params
-    |> Enum.with_index()
-    |> Enum.reduce([], fn {el, index}, ac ->
-      upper_bound = get_num_op_questions(params.num_questions, l, index)
-
-      1..upper_bound
-      |> Enum.to_list()
-      |> Enum.map(fn _x -> QuestionGenerator.gen_math_question(el.operator, el.max_param) end)
-      |> Enum.concat(ac)
-    end)
-  end
-
-  defp get_num_op_questions(total_questions, num_params, index) do
-    base_questions = Integer.floor_div(total_questions, num_params)
-    mod = Integer.mod(total_questions, num_params)
-
-    case mod - index do
-      x when x > 0 -> base_questions + 1
-      _ -> base_questions
-    end
+    {:reply, {:ok, quiz_id}, new_state}
   end
 end

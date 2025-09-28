@@ -1,4 +1,7 @@
 defmodule MathQuizWeb.FormModels.FormProcessing do
+  @moduledoc """
+  Enables translation of quiz entry form to formal quiz parameters for `MathQuiz` applet.
+  """
   alias MathQuizWeb.FormModels
   alias MathQuiz.Models
 

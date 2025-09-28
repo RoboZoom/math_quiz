@@ -1,4 +1,7 @@
 defmodule MathQuizWeb.FormModels.QuizGenerateForm do
+  @moduledoc """
+  Schema for quiz generation form.
+  """
   use Ecto.Schema
 
   import Ecto.Changeset
