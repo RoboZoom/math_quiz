@@ -1,4 +1,9 @@
 defmodule MathQuiz.QuestionGenerator do
+  @moduledoc """
+  Contains question generation logic.
+
+  `gen_math_question(operatior, param)` is the core logic which takes parameters specific to each math problem type and outputs a math question.
+  """
   alias MathQuiz.Models.MathQuizItem
 
   def gen_math_question(:add, max_param) do

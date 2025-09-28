@@ -1,4 +1,7 @@
 defmodule MathQuiz.Models.QuizCache do
+  @moduledoc """
+  Schema for the quiz cache.
+  """
   alias MathQuiz.Models
   use Ecto.Schema
 

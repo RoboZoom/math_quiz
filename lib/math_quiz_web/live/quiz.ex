@@ -1,4 +1,7 @@
 defmodule MathQuizWeb.Quiz do
+  @moduledoc """
+  Live View which Renders Quiz Generation Form.
+  """
   alias MathQuizWeb.FormModels.QuizGenerateForm
   use MathQuizWeb, :live_view
 

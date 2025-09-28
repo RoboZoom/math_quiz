@@ -1,4 +1,7 @@
 defmodule MathQuiz.Models.MathQuizOp do
+  @moduledoc """
+  Schema for MathOperator used inside of quiz.
+  """
   use Ecto.Schema
 
   import Ecto.Changeset
