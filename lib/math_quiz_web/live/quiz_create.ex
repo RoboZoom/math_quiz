@@ -101,8 +101,5 @@ defmodule MathQuizWeb.QuizCreate do
   end
 
   def handle_async(:generate_quiz, {:ok, quiz_id}, socket) do
-
-
-
   end
 end
