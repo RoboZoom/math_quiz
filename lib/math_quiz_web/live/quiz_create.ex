@@ -3,6 +3,7 @@ defmodule MathQuizWeb.QuizCreate do
   Live View which Renders Quiz Generation Form.
   """
   alias MathQuizWeb.FormModels
+  alias MathQuizWeb.FormModels.FormProcessing
   alias Phoenix.LiveView.AsyncResult
   alias MathQuizWeb.FormModels.QuizGenerateForm
   import Ecto.Changeset
@@ -44,19 +45,26 @@ defmodule MathQuizWeb.QuizCreate do
             <div>
               <form for{@form} phx-change="validate" phx-submit="phx-submit">
                 <.input field={@form[:num_questions]} label="Number of Questions" />
-                <.input field={@form[:max_sum]} label="Max Sum" />
+
                 <fieldset class="fieldset bg-base-100 border-base-300 rounded-box w-64 border p-4">
                   <legend class="fieldset-legend">Mathematical Operations</legend>
                   <label class="label">
-                    <input type="checkbox" checked="checked" class="checkbox" /> Addition
+                    <.input
+                      type="checkbox"
+                      field={@form[:add]}
+                      checked="checked"
+                      class="checkbox"
+                    /> Addition
                   </label>
                   <label class="label">
-                    <input type="checkbox" checked="checked" class="checkbox" /> Subtraction
-                  </label>
-                  <label class="label">
-                    <input type="checkbox" checked="checked" class="checkbox" /> Multiplication
+                    <.input type="checkbox" field={@form[:subtraction]} class="checkbox" />
+                    Subtraction
                   </label>
                 </fieldset>
+
+                <.input field={@form[:max_sum]} label="Max Sum" />
+                <.input field={@form[:max_minuend]} label="Max Minuend" />
+
                 <div class="py-4">
                   <.button>Generate</.button>
                 </div>
@@ -79,7 +87,7 @@ defmodule MathQuizWeb.QuizCreate do
     {:noreply, assign(socket, form: f)}
   end
 
-  def handle_event("submit", %{"quiz_generate_form" => vals}, socket) do
+  def handle_event("phx-submit", %{"quiz_generate_form" => vals}, socket) do
     ch =
       %QuizGenerateForm{}
       |> QuizGenerateForm.changeset(vals)
@@ -87,19 +95,23 @@ defmodule MathQuizWeb.QuizCreate do
     case ch.valid? do
       true ->
         form_vals = apply_changes(ch)
+        IO.puts("Creating Quiz!")
 
-        {:ok,
+        {:noreply,
          socket
          |> assign(:quiz_id, AsyncResult.loading())
          |> start_async(:generate_quiz, fn ->
-           FormModels.FormProcessing.process_quiz_params_form(form_vals)
+           FormProcessing.process_quiz_params_form(form_vals)
+           |> FormProcessing.submit_quiz()
          end)}
 
       false ->
-        {:ok, socket |> assign(form: to_form(ch))}
+        IO.inspect(socket.assigns.form[:add])
+        {:noreply, socket |> assign(form: to_form(ch, action: :validate))}
     end
   end
 
   def handle_async(:generate_quiz, {:ok, quiz_id}, socket) do
+    {:noreply, push_patch(socket, to: ~p"/quiz_view/#{quiz_id}")}
   end
 end

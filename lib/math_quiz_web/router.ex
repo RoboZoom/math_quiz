@@ -1,5 +1,4 @@
 defmodule MathQuizWeb.Router do
-  alias MathQuizWeb.QuizView
   use MathQuizWeb, :router
 
   pipeline :browser do

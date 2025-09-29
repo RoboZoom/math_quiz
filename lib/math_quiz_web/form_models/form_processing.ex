@@ -12,13 +12,17 @@ defmodule MathQuizWeb.FormModels.FormProcessing do
 
   def process_quiz_params_form(%FormModels.QuizGenerateForm{} = params) do
     m = %Models.MathQuizParams{
+      id: 1,
       num_questions: params.num_questions,
       operator_params: []
     }
 
+    IO.puts("Processing Quiz Parameters")
+
     m
     |> process_quiz_params(:add, params)
     |> process_quiz_params(:subtract, params)
+    |> IO.inspect(label: "Quiz Parameters")
   end
 
   def process_quiz_params(

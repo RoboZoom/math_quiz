@@ -12,6 +12,7 @@ defmodule MathQuiz.Application do
       # MathQuiz.Repo,
       {DNSCluster, query: Application.get_env(:math_quiz, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: MathQuiz.PubSub},
+      MathQuiz.QuizCache,
       # Start a worker by calling: MathQuiz.Worker.start_link(arg)
       # {MathQuiz.Worker, arg},
       # Start to serve requests, typically the last entry

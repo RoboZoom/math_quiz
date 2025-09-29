@@ -10,7 +10,7 @@ defmodule MathQuizWeb.QuizView do
     quiz =
       case MathQuiz.Quiz.fetch_quiz(quiz_id) do
         {:ok, quiz} -> quiz
-        {:error, msg} -> :error
+        {:error, _msg} -> :error
         _ -> :error
       end
 
