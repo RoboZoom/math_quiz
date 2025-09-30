@@ -1,7 +1,6 @@
 defmodule MathQuizWeb.QuizView do
   alias MathQuiz.Models
 
-  import Ecto.Changeset
   use MathQuizWeb, :live_view
 
   def mount(params, _session, socket) do

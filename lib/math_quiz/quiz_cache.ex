@@ -9,6 +9,10 @@ defmodule MathQuiz.QuizCache do
   alias MathQuiz.Models
   alias MathQuiz.QuestionGenerator
 
+  def start_link(_opts) do
+    GenServer.start_link(__MODULE__, %{quizzes: [], next_id: 1})
+  end
+
   @impl true
   def init(_init_arg) do
     {:ok,

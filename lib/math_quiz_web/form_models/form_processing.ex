@@ -10,6 +10,11 @@ defmodule MathQuizWeb.FormModels.FormProcessing do
     |> MathQuiz.Quiz.generate_quiz()
   end
 
+  def submit_quiz(other_opts) do
+    IO.inspect(other_opts, label: "Submitted Quiz Options")
+    {:error, "Options did not comply with form params"}
+  end
+
   def process_quiz_params_form(%FormModels.QuizGenerateForm{} = params) do
     m = %Models.MathQuizParams{
       id: 1,

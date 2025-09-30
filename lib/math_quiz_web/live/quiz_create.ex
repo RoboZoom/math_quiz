@@ -2,7 +2,6 @@ defmodule MathQuizWeb.QuizCreate do
   @moduledoc """
   Live View which Renders Quiz Generation Form.
   """
-  alias MathQuizWeb.FormModels
   alias MathQuizWeb.FormModels.FormProcessing
   alias Phoenix.LiveView.AsyncResult
   alias MathQuizWeb.FormModels.QuizGenerateForm
@@ -52,7 +51,7 @@ defmodule MathQuizWeb.QuizCreate do
                     <.input
                       type="checkbox"
                       field={@form[:add]}
-                      checked="checked"
+                      checked="true"
                       class="checkbox"
                     /> Addition
                   </label>
@@ -101,8 +100,7 @@ defmodule MathQuizWeb.QuizCreate do
          socket
          |> assign(:quiz_id, AsyncResult.loading())
          |> start_async(:generate_quiz, fn ->
-           FormProcessing.process_quiz_params_form(form_vals)
-           |> FormProcessing.submit_quiz()
+           FormProcessing.submit_quiz(form_vals)
          end)}
 
       false ->
