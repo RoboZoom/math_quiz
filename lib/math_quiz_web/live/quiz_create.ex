@@ -104,7 +104,6 @@ defmodule MathQuizWeb.QuizCreate do
          end)}
 
       false ->
-        IO.inspect(socket.assigns.form[:add])
         {:noreply, socket |> assign(form: to_form(ch, action: :validate))}
     end
   end
