@@ -9,8 +9,9 @@ defmodule MathQuiz.QuizCache do
   alias MathQuiz.Models
   alias MathQuiz.QuestionGenerator
 
-  def start_link(_opts) do
-    GenServer.start_link(__MODULE__, %{quizzes: [], next_id: 1})
+  def start_link(opts) do
+    IO.inspect(opts)
+    GenServer.start_link(__MODULE__, %{quizzes: [], next_id: 1}, opts)
   end
 
   @impl true
@@ -27,7 +28,13 @@ defmodule MathQuiz.QuizCache do
   """
   @impl true
   def handle_call({:get_quiz, quiz_id}, _from, %Models.QuizCache{} = state) do
-    quiz = Enum.find(state.quizzes, &(&1.id == quiz_id))
+    int_id =
+      case Integer.parse(quiz_id) do
+        {num, _} -> num
+        _ -> nil
+      end
+
+    quiz = Enum.find(state.quizzes, &(&1.id == int_id)) |> IO.inspect(label: "Found Quiz")
 
     case quiz do
       nil -> {:reply, {:error, "Quiz not found"}, state}

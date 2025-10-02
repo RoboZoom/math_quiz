@@ -2,6 +2,7 @@ defmodule MathQuizWeb.QuizView do
   alias MathQuiz.Models
 
   use MathQuizWeb, :live_view
+  import MathQuizWeb.MathComponents
 
   def mount(params, _session, socket) do
     quiz_id = params["quiz_id"]
@@ -25,9 +26,9 @@ defmodule MathQuizWeb.QuizView do
       <div class="text-3xl">Math Quiz {@quiz_id}</div>
 
       <%= if @quiz != :error do %>
-        <div class="flex py-6 px-4">
+        <div class="flex flex-wrap gap-16 py-6 px-12">
           <%= for question <- @quiz.questions do %>
-            <div>Math question here.</div>
+            <.math_problem problem={question} />
           <% end %>
         </div>
       <% else %>

@@ -109,7 +109,8 @@ defmodule MathQuizWeb.QuizCreate do
     end
   end
 
-  def handle_async(:generate_quiz, {:ok, quiz_id}, socket) do
-    {:noreply, push_patch(socket, to: ~p"/quiz_view/#{quiz_id}")}
+  def handle_async(:generate_quiz, {:ok, quiz_response}, socket) do
+    {:ok, quiz_id} = quiz_response
+    {:noreply, push_navigate(socket, to: ~p"/quiz_view/#{quiz_id}")}
   end
 end
