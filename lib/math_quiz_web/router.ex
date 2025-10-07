@@ -21,6 +21,7 @@ defmodule MathQuizWeb.Router do
 
     live "/quiz", QuizCreate
     live "/quiz_view/:quiz_id", QuizView
+    live "/narrative", Narrative
   end
 
   # Other scopes may use custom stacks.

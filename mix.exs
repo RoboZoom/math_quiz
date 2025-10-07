@@ -66,7 +66,12 @@ defmodule MathQuiz.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:bumblebee, "~> 0.6.0"},
+      {:nx, "~> 0.9.0"},
+      {:exla, "~> 0.9.0"},
+      {:axon, "~> 0.7.0"},
+      {:kino, "~> 0.14.0"}
     ]
   end
 

@@ -32,4 +32,12 @@ defmodule MathQuizWeb.MathComponents do
     </div>
     """
   end
+
+  def story_math_problem(%{problem: _problem} = assigns) do
+    ~H"""
+    <div class="p-4 flex flex-col text-xl items-end">
+      <div>{@problem.story_text}</div>
+    </div>
+    """
+  end
 end
