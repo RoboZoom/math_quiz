@@ -11,4 +11,8 @@ defmodule MathQuiz.Quiz do
   def fetch_quiz(quiz_id) do
     GenServer.call(MathQuiz.QuizCache, {:get_quiz, quiz_id})
   end
+
+  def shuffle_quiz(%MathQuiz.Models.MathQuiz{} = q) do
+    Map.update!(q, :questions, &Enum.shuffle(&1))
+  end
 end

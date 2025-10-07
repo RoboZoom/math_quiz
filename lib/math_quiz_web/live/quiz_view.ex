@@ -1,4 +1,5 @@
 defmodule MathQuizWeb.QuizView do
+  alias MathQuiz.Quiz
   use MathQuizWeb, :live_view
   import MathQuizWeb.MathComponents
 
@@ -7,7 +8,7 @@ defmodule MathQuizWeb.QuizView do
 
     quiz =
       case MathQuiz.Quiz.fetch_quiz(quiz_id) do
-        {:ok, quiz} -> quiz |> Enum.shuffle()
+        {:ok, quiz} -> quiz |> Quiz.shuffle_quiz()
         {:error, _msg} -> :error
         _ -> :error
       end

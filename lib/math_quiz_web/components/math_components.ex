@@ -7,7 +7,7 @@ defmodule MathQuizWeb.MathComponents do
 
   attr :problem, :map
 
-  def math_problem(%{problem: %Models.MathQuizItem{operator: :add} = problem} = assigns) do
+  def math_problem(%{problem: %Models.MathQuizItem{operator: :add} = _problem} = assigns) do
     ~H"""
     <div class="p-4 flex flex-col text-xl items-end">
       <div class="float-right">{@problem.first_num}</div>
