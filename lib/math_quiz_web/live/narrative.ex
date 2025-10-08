@@ -6,6 +6,7 @@ defmodule MathQuizWeb.Narrative do
 
   def mount(_params, _session, socket) do
     # quiz_id = params["quiz_id"]
+    IO.puts("Mounting Narrative Component")
     quiz_id = "1"
 
     quiz =
@@ -15,6 +16,8 @@ defmodule MathQuizWeb.Narrative do
         _ -> :error
       end
       |> make_quiz_narrative()
+
+    IO.puts("Narrative Component Created.")
 
     {:ok,
      socket
@@ -46,7 +49,14 @@ defmodule MathQuizWeb.Narrative do
   end
 
   def add_narrative_description(%Models.MathQuizItem{} = item) do
-    text = Quiz.make_story_question(item)
+    response = Quiz.make_story_question(item)
+
+    text =
+      case response do
+        %{result: result} -> result.text
+        _ -> "N/A"
+      end
+
     Map.put(item, :story_text, text) |> IO.inspect()
   end
 end

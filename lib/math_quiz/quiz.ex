@@ -17,7 +17,7 @@ defmodule MathQuiz.Quiz do
   end
 
   def make_story_question(%MathQuiz.Models.MathQuizItem{} = question) do
-    model_name = "openai-community/gpt2"
+    model_name = "bigscience/bloom"
     {:ok, granite} = Bumblebee.load_model({:hf, model_name})
     {:ok, tokenizer} = Bumblebee.load_tokenizer({:hf, model_name})
 
@@ -32,6 +32,6 @@ defmodule MathQuiz.Quiz do
     # text_input = Kino.Input.text(question_prompt, default: "Tomorrow it will be")
     # text = Kino.Input.read(text_input)
 
-    Nx.Serving.run(serving, question_prompt)
+    Nx.Serving.run(serving, question_prompt) |> IO.inspect(label: "NX Output")
   end
 end

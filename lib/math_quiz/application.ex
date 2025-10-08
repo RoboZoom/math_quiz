@@ -19,6 +19,8 @@ defmodule MathQuiz.Application do
       MathQuizWeb.Endpoint
     ]
 
+    Nx.global_default_backend(EXLA.Backend)
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: MathQuiz.Supervisor]
