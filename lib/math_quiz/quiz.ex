@@ -17,21 +17,12 @@ defmodule MathQuiz.Quiz do
   end
 
   def make_story_question(%MathQuiz.Models.MathQuizItem{} = question) do
-    model_name = "bigscience/bloom"
-    {:ok, granite} = Bumblebee.load_model({:hf, model_name})
-    {:ok, tokenizer} = Bumblebee.load_tokenizer({:hf, model_name})
-
-    {:ok, generation_config} = Bumblebee.load_generation_config({:hf, model_name})
-
-    serving = Bumblebee.Text.generation(granite, tokenizer, generation_config)
-
     question_prompt =
-      "Write a narrative story question for children for the math problem #{question.first_num} plus #{question.second_num}."
+      "Write a narrative story question for children for the math problem #{question.first_num} plus #{question.second_num}.  Please provide the response in json format, with the text having the key 'storyText'."
       |> IO.inspect(label: "Prompt")
 
-    # text_input = Kino.Input.text(question_prompt, default: "Tomorrow it will be")
-    # text = Kino.Input.read(text_input)
+    Nx.Serving.batched_run(MyLLM, question_prompt) |> IO.inspect(label: "NX Output")
 
-    Nx.Serving.run(serving, question_prompt) |> IO.inspect(label: "NX Output")
+    # Nx.Serving.run(serving, question_prompt) |> IO.inspect(label: "NX Output")
   end
 end

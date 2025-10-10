@@ -15,14 +15,13 @@ defmodule MathQuizWeb.Narrative do
         {:error, _msg} -> :error
         _ -> :error
       end
-      |> make_quiz_narrative()
 
     IO.puts("Narrative Component Created.")
 
     {:ok,
      socket
      |> assign(quiz_id: quiz_id)
-     |> assign(quiz: quiz)}
+     |> assign_async(:quiz, fn -> make_quiz_narrative(quiz) end)}
   end
 
   def render(assigns) do
@@ -30,22 +29,29 @@ defmodule MathQuizWeb.Narrative do
     <div>
       <div class="text-3xl">Math Quiz {@quiz_id} (Narrative)!</div>
 
-      <%= if @quiz != :error do %>
-        <div class="flex flex-wrap gap-16 py-6 px-12">
-          <%= for question <- @quiz.questions do %>
-            <.story_math_problem problem={question} />
-          <% end %>
-        </div>
-      <% else %>
-        <div>Error loading quiz.</div>
-      <% end %>
+      <.async_result :let={quiz} assign={@quiz}>
+        <:loading>Loading Quiz...</:loading>
+
+        <%= if quiz != :error do %>
+          <div class="flex flex-wrap gap-16 py-6 px-12">
+            <%= for question <- quiz.questions do %>
+              <.story_math_problem problem={question} />
+            <% end %>
+          </div>
+        <% else %>
+          <div>Error loading quiz.</div>
+        <% end %>
+      </.async_result>
     </div>
     """
   end
 
   def make_quiz_narrative(%Models.MathQuiz{} = quiz) do
-    Map.update!(quiz, :questions, &Enum.map(&1, fn x -> add_narrative_description(x) end))
-    |> IO.inspect(label: "Story Maker")
+    response =
+      Map.update!(quiz, :questions, &Enum.map(&1, fn x -> add_narrative_description(x) end))
+      |> IO.inspect(label: "Story Maker")
+
+    {:ok, response}
   end
 
   def add_narrative_description(%Models.MathQuizItem{} = item) do
