@@ -17,6 +17,8 @@ defmodule MathQuiz.Quiz do
   end
 
   def make_story_question(%MathQuiz.Models.MathQuizItem{} = question) do
+    IO.puts("Making story question.")
+
     question_prompt =
       "Write a narrative story question for children for the math problem #{question.first_num} plus #{question.second_num}.  Please provide the response in json format, with the text having the key 'storyText'."
       |> IO.inspect(label: "Prompt")

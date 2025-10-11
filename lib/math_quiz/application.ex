@@ -44,7 +44,7 @@ defmodule MathQuiz.Application do
 
     Bumblebee.Text.generation(model_info, tokenizer, generation_config,
       compile: [batch_size: 10, sequence_length: 1028],
-      stream: true,
+      # stream: true,
       defn_options: [compiler: EXLA]
     )
   end
