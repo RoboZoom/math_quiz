@@ -30,9 +30,15 @@ defmodule MathQuiz.Application do
 
   def setup_llm() do
     # token = File.read!("token.txt")
-    repo = {:hf, "openai-community/gpt2"}
+    repo = {:hf, "mistralai/Magistral-Small-2509"}
 
-    {:ok, model_info} = Bumblebee.load_model(repo, backend: EXLA.Backend)
+    {:ok, model_info} =
+      Bumblebee.load_model(repo,
+        backend: EXLA.Backend,
+        module: Bumblebee.Text.Mistral,
+        architecture: :base
+      )
+
     {:ok, tokenizer} = Bumblebee.load_tokenizer(repo)
     {:ok, generation_config} = Bumblebee.load_generation_config(repo)
 
@@ -43,7 +49,7 @@ defmodule MathQuiz.Application do
       )
 
     Bumblebee.Text.generation(model_info, tokenizer, generation_config,
-      compile: [batch_size: 10, sequence_length: 1028],
+      compile: [batch_size: 10, sequence_length: 512],
       # stream: true,
       defn_options: [compiler: EXLA]
     )
