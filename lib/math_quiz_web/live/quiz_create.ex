@@ -51,7 +51,7 @@ defmodule MathQuizWeb.QuizCreate do
                     <.input
                       type="checkbox"
                       field={@form[:add]}
-                      checked="true"
+                      checked={true}
                       class="checkbox"
                     /> Addition
                   </label>

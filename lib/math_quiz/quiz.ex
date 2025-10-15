@@ -19,12 +19,46 @@ defmodule MathQuiz.Quiz do
   def make_story_question(%MathQuiz.Models.MathQuizItem{} = question) do
     IO.puts("Making story question.")
 
-    question_prompt =
-      "Write a narrative story question for children for the math problem #{question.first_num} plus #{question.second_num}.  Please provide the response in json format, with the text having the key 'storyText'."
-      |> IO.inspect(label: "Prompt")
+    # message =
+    #   "Write a narrative story question for children for the math problem #{question.first_num} plus #{question.second_num}."
+    #   |> make_story_message()
+    #   |> IO.inspect(label: "Message")
 
-    Nx.Serving.batched_run(MyLLM, question_prompt) |> IO.inspect(label: "NX Output")
+    message = hard_prompt() |> IO.inspect(label: "Message")
 
-    # Nx.Serving.run(serving, question_prompt) |> IO.inspect(label: "NX Output")
+    Nx.Serving.batched_run(MyLLM, message) |> IO.inspect(label: "NX Output")
+  end
+
+  defp make_story_message(prompt) do
+    [
+      teacher_role(),
+      %{
+        role: "user",
+        content: prompt
+      }
+    ]
+    |> JSON.encode!()
+  end
+
+  defp teacher_role(),
+    do: %{
+      role: "system",
+      content: "You are a children's math teacher.  Use words suitable for a child aged 6 - 10."
+    }
+
+  def hard_prompt() do
+    """
+    [
+    {
+    role: "system",
+    content: "You are a children's math teacher.  Use words suitable for a child aged 6 - 10.  Your answers are in plain english text, not code."
+
+    },
+    {
+    role: "user"
+    content: "Write a narrative story word problem for the math problem 3 + 9.  The response should be no longer than 250 characters."
+    }
+    ]
+    """
   end
 end

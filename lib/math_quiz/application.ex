@@ -7,6 +7,8 @@ defmodule MathQuiz.Application do
 
   @impl true
   def start(_type, _args) do
+    # Nx.global_default_backend({EXLA.Backend, client: :host})
+
     children = [
       MathQuizWeb.Telemetry,
       # MathQuiz.Repo,
@@ -20,8 +22,6 @@ defmodule MathQuiz.Application do
       MathQuizWeb.Endpoint
     ]
 
-    Nx.global_default_backend(EXLA.Backend)
-
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: MathQuiz.Supervisor]
@@ -30,16 +30,21 @@ defmodule MathQuiz.Application do
 
   def setup_llm() do
     # token = File.read!("token.txt")
-    repo = {:hf, "mistralai/Magistral-Small-2509"}
+    repo = {:hf, "HuggingFaceTB/SmolLM3-3B"}
 
     {:ok, model_info} =
       Bumblebee.load_model(repo,
         backend: EXLA.Backend,
-        module: Bumblebee.Text.Mistral,
-        architecture: :base
+        module: Bumblebee.Text.Llama,
+        architecture: :for_causal_language_modeling
       )
 
+    IO.puts("Model Loaded.")
+
     {:ok, tokenizer} = Bumblebee.load_tokenizer(repo)
+
+    IO.puts("Tokenizer Loaded.")
+
     {:ok, generation_config} = Bumblebee.load_generation_config(repo)
 
     generation_config =

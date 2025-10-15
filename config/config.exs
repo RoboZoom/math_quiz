@@ -31,6 +31,8 @@ config :math_quiz, MathQuizWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :math_quiz, MathQuiz.Mailer, adapter: Swoosh.Adapters.Local
 
+config :nx, :default_backend, EXLA.Backend
+
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.25.4",
