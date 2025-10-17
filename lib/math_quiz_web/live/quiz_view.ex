@@ -25,10 +25,10 @@ defmodule MathQuizWeb.QuizView do
       <div class="text-3xl">Math Quiz {@quiz_id}</div>
 
       <%= if @quiz != :error do %>
-        <div class="flex flex-wrap gap-16 py-6 px-12">
-          <%= for question <- @quiz.questions do %>
-            <.math_problem problem={question} />
-          <% end %>
+        <div class="flex flex-wrap gap-4 py-6 px-12">
+          <%= Enum.with_index(@quiz.questions, fn el, index -> %>
+            <.math_problem problem={el} index={index + 1} />
+          <% end ) %>
         </div>
       <% else %>
         <div>Error loading quiz.</div>

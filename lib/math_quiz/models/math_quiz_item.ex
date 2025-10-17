@@ -1,6 +1,6 @@
 defmodule MathQuiz.Models.MathQuizItem do
   use Ecto.Schema
-  import Ecto.Changeset
+  # import Ecto.Changeset
 
   @moduledoc """
   Struct to represent quiz item.
