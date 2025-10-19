@@ -28,7 +28,7 @@ defmodule MathQuizWeb.MathComponents do
 
   def math_problem(%{problem: %Models.MathQuizItem{operator: :subtract} = _problem} = assigns) do
     ~H"""
-    <div class="flex px-6 pb-12 pt-4 border border-base-500 rounded-md">
+    <div class="flex px-6 pb-12 pt-4 border border-base-500 rounded-md print:break-inside-avoid">
       <span class="text-xl">{@index}.</span>
       <div class="p-4 flex flex-col text-xl items-end">
         <div class="float-right">{@problem.first_num}</div>
